@@ -6,12 +6,17 @@ const baseLord = {
     positionY: 0,
     positionZ: 0,
     clan: "",
+    battle: false,
+    planet: "",
     numbersBattle: 0, // всего проведенных боев
     numbersWinBattle: 0, // число выиграных боев
     numbersLooseBattle: 0, // проигранных боев
     kristalsBlue: 5,
     kristalsYellow: 5,
+    curentMissions: [],
     lvl: 1,
+    ratingPoints: 0,
+    guild: "",
     shell: {
         shellAttack: { attack: 0, percent: 100 }, //состояние усилителей базовых навіков
         shellDefend: { defend: 0, percent: 100 }, //хранит уровень усилителя который добавляет очки

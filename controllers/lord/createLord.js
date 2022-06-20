@@ -9,7 +9,13 @@ const createLord = async (req, res) => {
         if (duplicateNikName) {
             return errMassage(res, 400);
         }
-        const lord = new Lord({ ...baseLord, nikName: nikName, rassa: rassa, user: req.id });
+        let planet;
+        if (rassa === "Blue") {
+            planet = "BlueHome";
+        } else if (rassa === "Yellow") {
+            planet = "YellowHome";
+        }
+        const lord = new Lord({ ...baseLord, nikName: nikName, rassa: rassa, user: req.id, planet: planet });
         await lord.save();
         res.status(200).json({
             token: token,
