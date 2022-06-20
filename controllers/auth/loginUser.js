@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/User");
+const UserSchema = require("../../models/User");
 const errMassage = require("../../errors/errorMassage.js");
 
 const dotenv = require("dotenv");
@@ -10,9 +10,9 @@ const { PASSWORD_KEY } = process.env;
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        const user = await UserSchema.findOne({ email });
         if (!user) {
-            return errMassage(res, 404);
+            return errMassage(res, 401);
         }
         const isPassword = await bcrypt.compare(password, user.password);
         if (!isPassword) {

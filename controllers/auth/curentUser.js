@@ -1,9 +1,9 @@
-const User = require("../../models/User");
+const UserSchema = require("../../models/User");
 const errMassage = require("../../errors/errorMassage.js");
 
 const curentUser = async (req, res) => {
     try {
-        const user = await User.findOne({ id: req.id }); // в миделвеере мы добавили в реквест поле ид при проверке токена
+        const user = await UserSchema.findOne({ id: req.id }); // в миделвеере мы добавили в реквест поле ид при проверке токена
         if (!user) {
             errMassage(res, 401);
             return;

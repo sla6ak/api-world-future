@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/User");
+const UserSchema = require("../../models/User");
 const errMassage = require("../../errors/errorMassage.js");
 
 const dotenv = require("dotenv");
@@ -10,13 +10,13 @@ const { PASSWORD_KEY } = process.env;
 const createUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        const duplicateEmail = await User.findOne({ email });
-        const duplicateName = await User.findOne({ name });
+        const duplicateEmail = await UserSchema.findOne({ email });
+        const duplicateName = await UserSchema.findOne({ name });
         if (duplicateEmail || duplicateName) {
             return errMassage(res, 400);
         }
         const hashPassword = await bcrypt.hash(password, 12);
-        const user = new User({ name: name, email: email, password: hashPassword });
+        const user = new UserSchema({ name: name, email: email, password: hashPassword });
         await user.save();
         const token = jwt.sign({ id: user.id }, PASSWORD_KEY, { expiresIn: "9h" });
         res.status(200).json({
