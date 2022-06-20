@@ -8,7 +8,7 @@ const getLord = async (req, res) => {
             errMassage(res, 401);
             return;
         }
-        res.status(200).json({ ...lord });
+        res.status(200).json({ data: lord });
     } catch (error) {
         errMassage(res, 504, error);
         return;

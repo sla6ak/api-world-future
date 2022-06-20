@@ -5,27 +5,20 @@ const baseLord = require("./baseLord");
 const createLord = async (req, res) => {
     try {
         const { nikName, rassa } = req.body;
-        const duplicateNikName = await LordSchema.findOne({ nikName });
+        const duplicateNikName = await LordSchema.findOne({ nikName: nikName });
         if (duplicateNikName) {
             return errMassage(res, 400);
         }
-        let planet;
+        let planet = "Blue";
         if (rassa === "Blue") {
             planet = "BlueHome";
         } else if (rassa === "Yellow") {
             planet = "YellowHome";
         }
-        const lord = new Lord({ ...baseLord, nikName: nikName, rassa: rassa, user: req.id, planet: planet });
+        const newLord = { ...baseLord, nikName: nikName, rassa: rassa, user: req.id, planet: planet };
+        const lord = new LordSchema(newLord);
         await lord.save();
-        res.status(200).json({
-            token: token,
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                massage: `User creted! My congraduletions! Welcome ${user.name}!`,
-            },
-        });
+        res.status(201).json({ newLord });
     } catch (error) {
         errMassage(res, 504, error);
         return;
