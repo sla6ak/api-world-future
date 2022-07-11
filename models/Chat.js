@@ -1,11 +1,12 @@
 const { Schema, model, Types } = require("mongoose"); //типы это часть библиотеки мангуста для описания колекции
 
 const ChatSchema = new Schema({
-    autor: { type: Types.ObjectId, ref: "Lord", required: true },
-    rassa: { type: String }, // расса будет подсвечивать автора цветом рассы
-    status: { type: String }, //  статус определяет кому адресованно сообщение всем или личное
-    massage: [{ body: String, date: Date }],
-    clan: { type: String },
+    autorID: { type: Types.ObjectId, ref: "Lord", required: true },
+    autor: { type: String, required: true },
+    rassa: { type: String, required: true }, // расса будет подсвечивать автора цветом рассы
+    status: { type: String, default: null }, //  статус определяет кому адресованно сообщение всем или личное
+    massage: { type: String, required: true },
+    clan: { type: String, default: "" },
     date: { type: Date, default: Date.now },
 });
 

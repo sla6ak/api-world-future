@@ -11,7 +11,7 @@ const routerAuth = require("./routers/auth.routes");
 const routerDocs = require("./routers/docs.routes");
 const routerLord = require("./routers/lord.routes");
 const routerChat = require("./routers/chat.routes");
-const routerPlay = require("./routers/play.routes");
+const routerPlay = require("./routers/game.routes");
 
 // Вытягиваем переменные окружения в которой прячем путь к базе данных
 dotenv.config();

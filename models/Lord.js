@@ -3,7 +3,6 @@ const { Schema, model, Types } = require("mongoose"); //типы это част
 const LordSchema = new Schema({
     nikName: { type: String, unique: true }, //
     rassa: { type: String }, //
-    online: { type: Boolean }, //
     positionX: { type: Number },
     positionY: { type: Number },
     positionZ: { type: Number },
@@ -19,10 +18,67 @@ const LordSchema = new Schema({
     lvl: { type: Number },
     ratingPoints: { type: Number },
     guild: { type: String }, //  разные гильдие будут выдавать разные задания игрокам с наградами. типа шахтерам удержать шахту 1 час и т д.
-    shell: {
-        shellAttack: { attack: { type: Number }, percent: { type: Number } }, //состояние усилителей базовых навіков
-        shellDefend: { defend: { type: Number }, percent: { type: Number } }, //хранит уровень усилителя который добавляет очки
-        shellLife: { life: { type: Number }, percent: { type: Number } }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+    squad: {
+        robot: {
+            name: { type: String },
+            power: {
+                attack: {
+                    attack: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+                defend: {
+                    defend: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+                life: {
+                    life: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+            },
+        },
+        sniper: {
+            name: { type: String },
+            power: {
+                attack: {
+                    attack: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+                defend: {
+                    defend: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+                life: {
+                    life: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+            },
+        },
+        shturm: {
+            name: { type: String },
+            power: {
+                attack: {
+                    attack: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+                defend: {
+                    defend: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+                life: {
+                    life: { type: Number },
+                    shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
+                    bonuse: { type: Number },
+                },
+            },
+        },
     },
     superPowers: {
         superAttacking: { type: Number }, //покупается в магазине предметов рядом с базовыми усилителями но дает одноразовый эффект
@@ -30,7 +86,8 @@ const LordSchema = new Schema({
         superHealling: { type: Number }, //добавляет к здоровью один раз за бой +очки в конце боя макс очки вернутся к базовым
     },
     user: { type: Types.ObjectId, ref: "User" },
-    date: { type: Date, default: Date.now },
+    dateOnline: { type: Date, default: Date.now },
+    CreatedDate: { type: Date, default: Date.now },
 });
 
 module.exports = model("Lord", LordSchema);

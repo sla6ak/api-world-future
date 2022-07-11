@@ -1,10 +1,9 @@
 const { Router } = require("express");
 const router = Router();
-const errMassage = require("../errors/errorMassage");
 //  Миделвееры;
 const authCurent = require("./middleware/auth/auth.middleware");
-const gamersRender = require("../controllers/play/gamersRender");
+const gameStart = require("../controllers/GameStart/GameStart");
 
-router.get("/", authCurent, gamersRender);
+router.get("/", authCurent, gameStart.gamersRender);
 
 module.exports = router;

@@ -17,10 +17,31 @@ const baseLord = {
     lvl: 1,
     ratingPoints: 0,
     guild: "",
-    shell: {
-        shellAttack: { attack: 0, percent: 100 }, //состояние усилителей базовых навіков
-        shellDefend: { defend: 0, percent: 100 }, //хранит уровень усилителя который добавляет очки
-        shellLife: { life: 0, percent: 100 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+    squad: {
+        robot: {
+            name: "base",
+            power: {
+                attack: { attack: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
+                defend: { defend: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
+                life: { life: 5, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+            },
+        },
+        sniper: {
+            name: "base",
+            power: {
+                attack: { attack: 2, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
+                defend: { defend: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
+                life: { life: 4, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+            },
+        },
+        shturm: {
+            name: "base",
+            power: {
+                attack: { attack: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
+                defend: { defend: 2, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
+                life: { life: 4, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+            },
+        },
     },
     superPowers: {
         superAttacking: 3, //покупается в магазине предметов рядом с базовыми усилителями но дает одноразовый эффект
@@ -31,3 +52,5 @@ const baseLord = {
 };
 
 module.exports = baseLord;
+
+// planet : 'BlueHome', 'YellowHome', 'Mainer', 'Lost', 'Ray',
