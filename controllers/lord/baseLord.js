@@ -19,27 +19,27 @@ const baseLord = {
     guild: "",
     squad: {
         robot: {
-            name: "base",
+            name: "base robot",
             power: {
-                attack: { attack: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
-                defend: { defend: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
-                life: { life: 5, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+                attack: { base: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
+                defend: { base: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
+                life: { base: 5, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
             },
         },
         sniper: {
-            name: "base",
+            name: "base sniper",
             power: {
-                attack: { attack: 2, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
-                defend: { defend: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
-                life: { life: 4, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+                attack: { base: 2, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
+                defend: { base: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
+                life: { base: 4, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
             },
         },
         shturm: {
-            name: "base",
+            name: "base shturm",
             power: {
-                attack: { attack: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
-                defend: { defend: 2, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
-                life: { life: 4, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
+                attack: { base: 3, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //состояние усилителей базовых навіков
+                defend: { base: 2, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //хранит уровень усилителя который добавляет очки
+                life: { base: 4, shell: { base: 0, bonuse: 0, percent: 100 }, bonuse: 0 }, //процент усилителя падает в ноль если бой проигран и растет на базе в мастерской N минут
             },
         },
     },

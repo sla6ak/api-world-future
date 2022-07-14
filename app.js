@@ -12,6 +12,7 @@ const routerDocs = require("./routers/docs.routes");
 const routerLord = require("./routers/lord.routes");
 const routerChat = require("./routers/chat.routes");
 const routerPlay = require("./routers/game.routes");
+const routerMission = require("./routers/mission.routes");
 
 // Вытягиваем переменные окружения в которой прячем путь к базе данных
 dotenv.config();
@@ -26,6 +27,7 @@ app.use("/auth", routerAuth);
 app.use("/docs", routerDocs); // в идеале создать форум на основе чата где игроки сами напишут гайды и доки по игре.
 app.use("/lord", routerLord); // хранит и обрабатывает информацию конкретного лорда
 app.use("/chat", routerChat);
+app.use("/mission", routerMission);
 app.use("/play", routerPlay); // роутер должен обрабатывать состояние карты рендерить всех онлаин игроков соответствующего лорду уровня на карте и запускатся как можно чаще
 
 async function start() {

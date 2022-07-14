@@ -7,6 +7,7 @@ const LordSchema = new Schema({
     positionY: { type: Number },
     positionZ: { type: Number },
     planet: { type: String },
+    missions: [],
     curentMissions: [{ type: String }],
     clan: { type: String },
     battle: { type: Boolean }, // показывает в бою ли игрок и если тру то рендерит флажек вместо модельки
@@ -23,17 +24,17 @@ const LordSchema = new Schema({
             name: { type: String },
             power: {
                 attack: {
-                    attack: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
                 defend: {
-                    defend: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
                 life: {
-                    life: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
@@ -43,17 +44,17 @@ const LordSchema = new Schema({
             name: { type: String },
             power: {
                 attack: {
-                    attack: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
                 defend: {
-                    defend: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
                 life: {
-                    life: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
@@ -63,17 +64,17 @@ const LordSchema = new Schema({
             name: { type: String },
             power: {
                 attack: {
-                    attack: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
                 defend: {
-                    defend: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },
                 life: {
-                    life: { type: Number },
+                    base: { type: Number },
                     shell: { base: { type: Number }, bonuse: { type: Number }, percent: { type: Number } },
                     bonuse: { type: Number },
                 },

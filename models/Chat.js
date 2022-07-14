@@ -1,4 +1,4 @@
-const { Schema, model, Types } = require("mongoose"); //типы это часть библиотеки мангуста для описания колекции
+const { Schema, model, Types } = require("mongoose");
 
 const ChatSchema = new Schema({
     autorID: { type: Types.ObjectId, ref: "Lord", required: true },
@@ -11,6 +11,3 @@ const ChatSchema = new Schema({
 });
 
 module.exports = model("Chat", ChatSchema);
-
-// чат должен будет следить за датами сообщений и выводить на экран пользователя последние 20 сообщений
-// внутреняя дата для отображения в чате а внешняя для поиска последних сообщений возможно віглядит иначе
