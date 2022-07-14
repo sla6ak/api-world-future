@@ -20,15 +20,15 @@ const { BASE_URL } = process.env;
 const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
 
 // Список настроек для сервера
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use("/auth", routerAuth);
-app.use("/docs", routerDocs); // в идеале создать форум на основе чата где игроки сами напишут гайды и доки по игре.
-app.use("/lord", routerLord); // хранит и обрабатывает информацию конкретного лорда
-app.use("/chat", routerChat);
-app.use("/mission", routerMission);
-app.use("/play", routerPlay); // роутер должен обрабатывать состояние карты рендерить всех онлаин игроков соответствующего лорду уровня на карте и запускатся как можно чаще
+app.use("/auth", cors(), routerAuth);
+app.use("/docs", cors(), routerDocs); // в идеале создать форум на основе чата где игроки сами напишут гайды и доки по игре.
+app.use("/lord", cors(), routerLord); // хранит и обрабатывает информацию конкретного лорда
+app.use("/chat", cors(), routerChat);
+app.use("/mission", cors(), routerMission);
+app.use("/play", cors(), routerPlay); // роутер должен обрабатывать состояние карты рендерить всех онлаин игроков соответствующего лорду уровня на карте и запускатся как можно чаще
 
 async function start() {
     try {
