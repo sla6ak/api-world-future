@@ -32,11 +32,11 @@ app.use("/play", routerPlay); // роутер должен обрабатыва�
 
 async function start() {
     try {
-        mongoose.connect(BASE_URL).then(() => {
-            console.log(`MongoDB start`);
-        });
         app.listen(PORT, () => {
             console.log(`listening ${PORT}`);
+            mongoose.connect(BASE_URL).then(() => {
+                console.log(`MongoDB start`);
+            });
         });
     } catch (error) {
         process.exit(0);
