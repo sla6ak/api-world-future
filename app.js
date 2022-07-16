@@ -13,7 +13,7 @@ app.use(
         origin: "*",
         optionsSuccessStatus: 200,
         methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedHeaders: "*",
     })
 );
 
