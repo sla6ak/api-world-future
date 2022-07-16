@@ -1,6 +1,6 @@
 const LordSchema = require("../../models/Lord");
 
-class GameStart {
+class Positions {
     async gamersRender(req, res) {
         try {
             let start = new Date(new Date().getTime() - 0.5 * 60 * 60 * 1000);
@@ -16,4 +16,4 @@ class GameStart {
     }
 }
 
-module.exports = new GameStart();
+module.exports = new Positions();
