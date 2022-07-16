@@ -5,10 +5,20 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
+const logger = require("morgan");
 
 const optionCors = { origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"], allowedHeaders: "*" };
 // app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
 app.use(cors(optionCors));
+
+const formatsLogger = app.get("env") === "development" ? "dev" : "short";
+app.use(
+    logger(formatsLogger, {
+        skip: function (req, res) {
+            return res.statusCode === 404;
+        },
+    })
+);
 
 // Ниже импорты разных рероутов
 const routerAuth = require("./routers/auth.routes");
