@@ -4,18 +4,12 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
+const optionCors = { origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"], allowedHeaders: "*" };
 // app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
 // app.use(cors());
-app.use(
-    cors({
-        origin: "*",
-        optionsSuccessStatus: 200,
-        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-        allowedHeaders: "*",
-    })
-);
+app.use(cors(optionCors));
 
 // Ниже импорты разных рероутов
 const routerAuth = require("./routers/auth.routes");
@@ -26,10 +20,10 @@ const routerPlay = require("./routers/game.routes");
 const routerMission = require("./routers/mission.routes");
 
 // Список настроек для сервера
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-app.use(express.json());
-app.use("/auth", routerAuth);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+// app.use(express.json());
+app.use("/auth", cors(optionCors), routerAuth);
 app.use("/docs", routerDocs); // в идеале создать форум на основе чата где игроки сами напишут гайды и доки по игре.
 app.use("/lord", routerLord); // хранит и обрабатывает информацию конкретного лорда
 app.use("/chat", routerChat);
