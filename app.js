@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
 // app.use(cors({ origin: "*" }));
 app.use(
     cors({
-        origin: ["https://world-future.vercel.app/", "http://localhost:5000/"],
+        origin: "*",
         methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     })
 );
