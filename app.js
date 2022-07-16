@@ -8,7 +8,6 @@ const bodyParser = require("body-parser");
 
 const optionCors = { origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"], allowedHeaders: "*" };
 // app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
-// app.use(cors());
 app.use(cors(optionCors));
 
 // Ниже импорты разных рероутов
