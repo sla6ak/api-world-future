@@ -20,8 +20,14 @@ const { BASE_URL } = process.env;
 const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
 
 // Список настроек для сервера
-app.options("*", cors({ origin: "*" }));
+// app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
 // app.use(cors({ origin: "*" }));
+app.use(
+    cors({
+        origin: ["https://world-future.vercel.app/", "http://localhost:5000/"],
+        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/auth", routerAuth);
