@@ -1,10 +1,24 @@
 // Импорты базовых пакетов
+const cors = require("cors");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const cors = require("cors");
 const bodyParser = require("body-parser");
+
+// app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
+// app.use(cors());
+app.use(
+    cors({
+        origin: "*",
+        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    })
+);
+
+// Вытягиваем переменные окружения в которой прячем путь к базе данных
+dotenv.config();
+const { BASE_URL } = process.env;
+const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
 
 // Ниже импорты разных рероутов
 const routerAuth = require("./routers/auth.routes");
@@ -14,22 +28,10 @@ const routerChat = require("./routers/chat.routes");
 const routerPlay = require("./routers/game.routes");
 const routerMission = require("./routers/mission.routes");
 
-// Вытягиваем переменные окружения в которой прячем путь к базе данных
-dotenv.config();
-const { BASE_URL } = process.env;
-const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
-
 // Список настроек для сервера
-// app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
-// app.use(cors({ origin: "*" }));
-app.use(
-    cors({
-        origin: "*",
-        methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
-    })
-);
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+app.use(express.json());
 app.use("/auth", routerAuth);
 app.use("/docs", routerDocs); // в идеале создать форум на основе чата где игроки сами напишут гайды и доки по игре.
 app.use("/lord", routerLord); // хранит и обрабатывает информацию конкретного лорда
