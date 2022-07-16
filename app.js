@@ -4,21 +4,18 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 // app.options("*", cors({ origin: "*", methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"] }));
 // app.use(cors());
 app.use(
     cors({
         origin: "*",
+        optionsSuccessStatus: 200,
         methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
-
-// Вытягиваем переменные окружения в которой прячем путь к базе данных
-dotenv.config();
-const { BASE_URL } = process.env;
-const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
 
 // Ниже импорты разных рероутов
 const routerAuth = require("./routers/auth.routes");
@@ -38,6 +35,11 @@ app.use("/lord", routerLord); // хранит и обрабатывает инф
 app.use("/chat", routerChat);
 app.use("/mission", routerMission);
 app.use("/play", routerPlay); // роутер должен обрабатывать состояние карты рендерить всех онлаин игроков соответствующего лорду уровня на карте и запускатся как можно чаще
+
+// Вытягиваем переменные окружения в которой прячем путь к базе данных
+dotenv.config();
+const { BASE_URL } = process.env;
+const PORT = process.env.PORT || 5000; // http://localhost:5000/docs
 
 async function start() {
     try {
