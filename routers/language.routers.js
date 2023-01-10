@@ -10,18 +10,18 @@ router.get("/en", (req, res) => {
         { shortName: "ua", text: "UKRAINIAN" },
         { shortName: "ru", text: "RUSSIAN" },
       ],
-      StartPage: {
+      startPage: {
         h1: "Welcome to the world 3D of the future!",
         buttons: { language: "LANGUAGES", start: "START GAME" },
         aboutGame:
           "If you see this page, the connection to the server may have been lost for some time. Perhaps this is your first time here? In any case, the menu is intuitive and the game process is exciting. This is an RPG where you will surely meet new comrades!",
       },
-      LoginPage: {
+      loginPage: {
         h1: "Login Please",
         ask: "You don't have a login?",
         buttons: { registration: "Registration", submit: "SUBMIT" },
       },
-      RegisterPage: {
+      registerPage: {
         h1: "Welcome to the world 3D of the future!",
         h2: "This is licensia for players",
         textLicensia:
@@ -34,7 +34,7 @@ router.get("/en", (req, res) => {
           start: "START GAME",
         },
       },
-      SetLordPage: {
+      setLordPage: {
         h1: "Setting your personage",
         ask: "Come up with a name for your character",
         buttons: {
@@ -59,18 +59,18 @@ router.get("/ua", (req, res) => {
         { shortName: "ua", text: "УКРАИНСКА" },
         { shortName: "ru", text: "РОСИЙСКА" },
       ],
-      StartPage: {
+      startPage: {
         h1: "Ласкаво просимо у 3D світ майбутнього!",
         buttons: { language: "МОВИ", start: "РОЗПОЧАТИ ГРУ" },
         aboutGame:
           "Якщо ви бачите цю сторінку, можливо, зв’язок із сервером було втрачено на деякий час. Можливо, ви тут вперше? У будь-якому випадку меню інтуїтивно зрозуміле, а процес гри захоплюючий. Це RPG, де ви обов'язково зустрінете нових товаришів!",
       },
-      LoginPage: {
+      loginPage: {
         h1: "Увійдіть, будь ласка",
         ask: "У вас немає логіна?",
         buttons: { registration: "Зареєструватися", submit: "ВІДПРАВИТИ" },
       },
-      RegisterPage: {
+      registerPage: {
         h1: "Зареєструйтесь, будь ласка",
         h2: "Ліцензія для гравців",
         textLicensia:
@@ -83,7 +83,7 @@ router.get("/ua", (req, res) => {
           submit: "ВІДПРАВИТИ",
         },
       },
-      SetLordPage: {
+      setLordPage: {
         h1: "Налаштування вашого персонажа",
         ask: "Придумайте ім'я свого персонажа",
         buttons: {
@@ -108,18 +108,18 @@ router.get("/ru", (req, res) => {
         { shortName: "ua", text: "УКРАИНСКИЙ" },
         { shortName: "ru", text: "РУССКИЙ" },
       ],
-      StartPage: {
+      startPage: {
         h1: "Добро пожаловать в 3D мир будущего!",
         buttons: { language: "ЯЗЫКИ", start: "НАЧАТЬ ИГРАТЬ" },
         aboutGame:
           "Если вы видите эту страницу, возможно, соединение с сервером было потеряно в течение некоторого времени. Возможно, вы здесь впервые? В любом случае меню интуитивно понятное, а игровой процесс увлекательный. Это RPG, где вы обязательно встретите новых товарищей!",
       },
-      LoginPage: {
+      loginPage: {
         h1: "Пожалуйста сначало войдите",
         ask: "У вас нет логина?",
         buttons: { registration: "Зарегистрироваться", submit: "ОТПРАВИТЬ" },
       },
-      RegisterPage: {
+      registerPage: {
         h1: "Зарегистрируйтесь, пожалуйста",
         h2: "Лицензия для игроков",
         textLicensia:
@@ -131,7 +131,7 @@ router.get("/ru", (req, res) => {
           submit: "ОТПРАВИТЬ",
         },
       },
-      SetLordPage: {
+      setLordPage: {
         h1: "Настройте вашего персонажа",
         ask: "Придумайте имя своему персонажу",
         buttons: {
