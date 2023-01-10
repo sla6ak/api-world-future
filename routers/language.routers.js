@@ -30,8 +30,8 @@ router.get("/en", (req, res) => {
         ask: "Already have an account?",
         agree: "I have read and agree",
         buttons: {
-          language: "LANGUAGES",
-          start: "START GAME",
+          registration: "Login",
+          submit: "SEND",
         },
       },
       setLordPage: {
