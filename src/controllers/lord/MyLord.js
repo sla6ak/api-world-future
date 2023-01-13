@@ -1,4 +1,4 @@
-const LordSchema = require("../../models/Lord");
+const LordSchema = require("../../routers/models/Lord");
 const baseLord = require("./baseLord");
 
 class MyLord {

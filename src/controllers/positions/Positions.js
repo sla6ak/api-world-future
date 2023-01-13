@@ -1,4 +1,4 @@
-const LordSchema = require("../../models/Lord");
+const LordSchema = require("../../routers/models/Lord");
 
 class Positions {
     async gamersRender(req, res) {
