@@ -1,4 +1,4 @@
-const MissionSchema = require("../../models/Mission");
+const MissionSchema = require("../../routers/models/Mission");
 
 class Missions {
     // Запрос по умолчанию

@@ -1,4 +1,4 @@
-const errorMassage = require("../../../errors/errorMassage");
+const errorMassage = require("../../../configs/errors/errorMassage");
 const jwt = require("jsonwebtoken");
 
 const dotenv = require("dotenv");

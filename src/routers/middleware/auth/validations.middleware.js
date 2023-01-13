@@ -1,6 +1,6 @@
 //validation request
 const { check, validationResult } = require("express-validator");
-const errorMassage = require("../../../errors/errorMassage");
+const errorMassage = require("../../../configs/errors/errorMassage");
 
 const validationSignup = (req, res, next) => {
     [

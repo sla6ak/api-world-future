@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const errMassage = require("../errors/errorMassage");
+const errMassage = require("../configs/errors/errorMassage");
 
 router.get("/", (req, res) => {
     try {

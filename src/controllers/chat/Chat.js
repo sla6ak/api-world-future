@@ -1,4 +1,4 @@
-const ChatSchema = require("../../models/Chat");
+const ChatSchema = require("../../routers/models/Chat");
 
 class Chat {
     async allMassage(req, res) {
