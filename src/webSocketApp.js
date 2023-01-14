@@ -1,5 +1,6 @@
 const { server, mongoose, webSocketServer } = require("./httpApp");
-const chanals = ["chat", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
+const { canalConnect } = require("./wsCanals/connect");
+const chanals = ["chat", "connect", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
 // нужно проверять авторизацию при подключении он опен и только
 
 webSocketServer.on("connection", async (ws, req, client) => {
@@ -16,6 +17,11 @@ webSocketServer.on("connection", async (ws, req, client) => {
         if (req.chanal === "chat") {
             // тут будет функция из роутеров для ws
             ws.send(JSON.stringify({ chanal: "chat", message: "ws message" }));
+            return;
+        }
+        if (req.chanal === "connect") {
+            // фронт прислал нам ид игрока найдем его в базе и вышлем ему инфу про его текущую планету только необходимое.
+            const { allState } = canalConnect(req.data);
             return;
         }
         if (req.chanal === "myLord") {
