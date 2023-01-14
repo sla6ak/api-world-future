@@ -1,4 +1,4 @@
-const errorMassage = require("../../../configs/errors/errorMassage");
+const errorMessage = require("../../../configs/errors/errorMassage");
 const jwt = require("jsonwebtoken");
 
 const dotenv = require("dotenv");
@@ -12,7 +12,7 @@ module.exports = async (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1]; // "Bearer TOKEN" это строка поэтому распарсим ее в массив на 2 слова - и вытянем елемент 1
         if (!token) {
-            return errorMassage(res, 401);
+            return errorMessage(res, 401);
         }
         const tokenDecoder = jwt.verify(token, PASSWORD_KEY); // что шифровали то и вытянем ({ id: user.id })
         req.id = tokenDecoder.id;
