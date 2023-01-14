@@ -31,5 +31,6 @@ app.use(cors(optionCors));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
+mongoose.set("strictQuery", false);
 
 module.exports = { app, webSocketServer, server, mongoose };
