@@ -3,8 +3,8 @@ const router = Router();
 //  Контроллеры
 const user = require("../controllers/auth/User");
 //  Миделвееры;
-const { validationSignup, validationLogin } = require("./middleware/auth/validations.middleware");
-const authCurent = require("./middleware/auth/auth.middleware");
+const { validationSignup, validationLogin } = require("../middleware/auth/validations.middleware");
+const authCurent = require("../middleware/auth/auth.middleware");
 
 // Базовый путь перед роутом '/auth' далее перенаправляем '/api-contacts/users/login'
 router.post("/signup", validationSignup, user.createUser);

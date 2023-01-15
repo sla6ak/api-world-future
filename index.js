@@ -25,7 +25,7 @@ function mongConnect() {
                 console.log(err);
                 mongConnect();
             });
-    }, 3000);
+    }, 1000);
 }
 
 start();

@@ -22,7 +22,6 @@ class User {
             res.status(200).json({
                 token: token,
                 user: {
-                    id: user.id,
                     name: user.name,
                     email: user.email,
                     massage: `User creted! My congraduletions! Welcome ${user.name}!`,
@@ -48,7 +47,6 @@ class User {
             res.status(200).json({
                 token: token,
                 user: {
-                    id: user.id,
                     name: user.name,
                     email: user.email,
                     massage: `Welcome ${user.name}!`,
@@ -65,7 +63,6 @@ class User {
                 return res.status(400).json({ massage: `Curent user not found`, error: null });
             }
             res.status(200).json({
-                id: user.id,
                 name: user.name,
                 email: user.email,
                 massage: `Welcome ${user.name}!`,

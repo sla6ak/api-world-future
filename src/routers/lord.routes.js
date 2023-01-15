@@ -3,7 +3,7 @@ const router = Router();
 //  Контроллеры
 const myLord = require("../controllers/lord/MyLord");
 //  Миделвееры;
-const authCurent = require("./middleware/auth/auth.middleware");
+const authCurent = require("../middleware/auth/auth.middleware");
 
 // получает полную инфу о персонаже по токену
 router.get("/", authCurent, myLord.getLord);
