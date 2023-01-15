@@ -8,8 +8,8 @@ const clients = {};
 // const clients = {"id":{clientWS: "server",id:"",ip:"", browser:""},"id":{},"id":{}.....};
 
 webSocketServer.on("connection", async (ws, req) => {
+    let clientID = "";
     ws.on("pong", heartbeat);
-
     ws.send(JSON.stringify({ channel: "connect", data: { message: "ws connect" } }));
     ws.on("open", function open() {
         console.log("newUser open");
@@ -19,15 +19,17 @@ webSocketServer.on("connection", async (ws, req) => {
         const reqClient = JSON.parse(message);
         if (reqClient.channel === "connect") {
             // фронт прислал нам token игрока найдем его в базе.
-            const client = authWS(reqClient.data, req);
+            const client = await authWS(reqClient.data, req);
+            clientID = client.id;
             // нашли id подключенного проверим не висит ли он в списке подключений и удалим возможно он переподключился с нового браузера
-            if (!!clients[client.id]) {
-                delete clients[client.id];
+            if (!!clientID) {
+                delete clients[clientID];
             }
             // проверим не мульт ли он по ip/
             const listClients = Object.keys(clients);
             const multClient = listClients.find((el) => {
-                el.ip === client.ip || el.browser === client.browser;
+                // el.ip === client.ip || el.browser === client.browser;
+                el.ip === client.ip;
             });
             if (!!multClient) {
                 return ws.send(JSON.stringify({ channel: "connect", data: { isMult: !!multClient } }));
@@ -35,6 +37,7 @@ webSocketServer.on("connection", async (ws, req) => {
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
             clients[client.id] = client;
+            console.log(clients);
             // найдем и отправим ему нужную инфу
             const { allState } = channelConnect(reqClient.data);
             return ws.send(JSON.stringify({ channel: "connect", data: { allState, isMult: !!multClient } }));
@@ -68,7 +71,8 @@ webSocketServer.on("connection", async (ws, req) => {
 
     // ws.on("error", (e) => ws.send(e));
     ws.on("close", () => {
-        console.log("client exit");
+        // при отключении удалим из массива клиента
+        delete clients[clientID];
         clearInterval(intervalPingPong);
     });
 });
