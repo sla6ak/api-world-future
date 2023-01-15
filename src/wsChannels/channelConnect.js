@@ -1,7 +1,6 @@
 const channelConnect = (req) => {
     const allState = { channel: "connect", data: {} };
-    const client = {};
-    return { allState, client };
+    return { allState };
 };
 
 module.exports = { channelConnect };
