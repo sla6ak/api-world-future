@@ -1,19 +1,29 @@
 const { server, mongoose, webSocketServer } = require("./httpApp");
-const { authWS } = require("./middleware/authWS/auth.middleware");
+const { authWS } = require("./middleware/authWS/authWS.middleware");
 const { channelConnect } = require("./wsChannels/channelConnect");
-const channels = ["chat", "connect", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
-// нужно проверять авторизацию при подключении он опен и только
+const { channelChat } = require("./wsChannels/channelChat");
+const { channelMissions } = require("./wsChannels/channelMissions");
+const { channelPlanetaBlueHome } = require("./wsChannels/channelPlanetaBlueHome");
+const { channelPlanetaYellowHome } = require("./wsChannels/channelPlanetaYellowHome");
+const { channelPlanetaLostWorld } = require("./wsChannels/channelPlanetaLostWorld");
+const { channelMyLord } = require("./wsChannels/channelMyLord");
+const { globalState } = require("./globalState/globalState");
 
+globalState();
+const channels = ["chat", "connect", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
+// нужно проверять авторизацию при подключении connection и только
 const clients = {};
 // const clients = {"id":{clientWS: "server",id:"",ip:"", browser:""},"id":{},"id":{}.....};
 
 webSocketServer.on("connection", async (ws, req) => {
     let clientID = "";
+    let nikName = "";
+    let listClients = Object.keys(clients);
     ws.on("pong", heartbeat);
     ws.send(JSON.stringify({ channel: "connect", data: { message: "ws connect" } }));
-    ws.on("open", function open() {
-        console.log("newUser open");
-    });
+    // ws.on("open", function open() {
+    //     console.log("newUser open");
+    // });
 
     ws.on("message", async (message) => {
         const reqClient = JSON.parse(message);
@@ -21,50 +31,71 @@ webSocketServer.on("connection", async (ws, req) => {
             // фронт прислал нам token игрока найдем его в базе.
             const client = await authWS(reqClient.data, req);
             clientID = client.id;
-            // нашли id подключенного проверим не висит ли он в списке подключений и удалим возможно он переподключился с нового браузера
+            // если токен несуществует попросим юзера обновить страницу на клиенте
+            if (!clientID) {
+                return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
+            }
             if (!!clientID) {
+                // нашли id подключенного проверим не висит ли он в списке подключений и удалим возможно он переподключился с нового браузера
                 delete clients[clientID];
             }
             // проверим не мульт ли он по ip/
-            const listClients = Object.keys(clients);
+            listClients = Object.keys(clients);
             const multClient = listClients.find((el) => {
                 // el.ip === client.ip || el.browser === client.browser;
                 el.ip === client.ip;
             });
             if (!!multClient) {
-                return ws.send(JSON.stringify({ channel: "connect", data: { isMult: !!multClient } }));
+                return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
             }
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
             clients[client.id] = client;
-            console.log(clients);
             // найдем и отправим ему нужную инфу
             const { allState } = channelConnect(reqClient.data);
-            return ws.send(JSON.stringify({ channel: "connect", data: { allState, isMult: !!multClient } }));
+            return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
         }
         if (reqClient.channel === "chat") {
             // тут будет функция из роутеров для ws
-            ws.send(JSON.stringify({ channel: "chat", data: { message: "ws message" } }));
+            const { chatState } = channelChat(reqClient.data);
+            ws.send(JSON.stringify({ channel: "chat", data: chatState }));
             return;
         }
         if (reqClient.channel === "myLord") {
             // тут будет функция из роутеров для ws
+            const { myLordState } = channelMyLord(reqClient.data);
+            ws.send(JSON.stringify({ channel: "myLord", data: myLordState }));
+            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaBlueHome") {
             // тут будет функция из роутеров для ws
+            const { PlanetaBlueHomeState } = channelPlanetaBlueHome(reqClient.data);
+            listClients.map((id) => {
+                clients[id].clientWS.send(JSON.stringify({ channel: "planetaBlueHome", data: PlanetaBlueHomeState }));
+            });
+            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaYellowHome") {
             // тут будет функция из роутеров для ws
+            const { PlanetaYellowHomeState } = channelPlanetaYellowHome(reqClient.data);
+            ws.send(JSON.stringify({ channel: "planetaYellowHome", data: PlanetaYellowHomeState }));
+            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaLostWorld") {
             // тут будет функция из роутеров для ws
+            const { PlanetaLostWorldState } = channelPlanetaLostWorld(reqClient.data);
+            ws.send(JSON.stringify({ channel: "planetaLostWorld", data: PlanetaLostWorldState }));
+            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "missions") {
             // тут будет функция из роутеров для ws
+            const { MissionsState } = channelMissions(reqClient.data);
+            ws.send(JSON.stringify({ channel: "missions", data: MissionsState }));
+            // console.log(reqClient);
             return;
         }
     });

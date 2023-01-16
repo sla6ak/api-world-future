@@ -1,5 +1,5 @@
 const channelChat = (req) => {
-    return;
+    return {};
 };
 
 module.exports = { channelChat };
