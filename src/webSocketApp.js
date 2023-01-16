@@ -48,11 +48,13 @@ webSocketServer.on("connection", async (ws, req) => {
             if (!!multClient) {
                 return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
             }
+            // найдем и отправим ему нужную инфу
+            const { allState } = await channelConnect({ clientID });
+            nikName = allState.lordInfo.nikName;
+
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
             clients[client.id] = client;
-            // найдем и отправим ему нужную инфу
-            const { allState } = channelConnect(reqClient.data);
             return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
         }
         if (reqClient.channel === "chat") {
@@ -70,7 +72,7 @@ webSocketServer.on("connection", async (ws, req) => {
         }
         if (reqClient.channel === "planetaBlueHome") {
             // тут будет функция из роутеров для ws
-            const { PlanetaBlueHomeState } = channelPlanetaBlueHome(reqClient.data);
+            const { PlanetaBlueHomeState } = channelPlanetaBlueHome(reqClient.data, nikName);
             listClients.map((id) => {
                 clients[id].clientWS.send(JSON.stringify({ channel: "planetaBlueHome", data: PlanetaBlueHomeState }));
             });
@@ -79,21 +81,21 @@ webSocketServer.on("connection", async (ws, req) => {
         }
         if (reqClient.channel === "planetaYellowHome") {
             // тут будет функция из роутеров для ws
-            const { PlanetaYellowHomeState } = channelPlanetaYellowHome(reqClient.data);
+            const { PlanetaYellowHomeState } = channelPlanetaYellowHome(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaYellowHome", data: PlanetaYellowHomeState }));
             // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaLostWorld") {
             // тут будет функция из роутеров для ws
-            const { PlanetaLostWorldState } = channelPlanetaLostWorld(reqClient.data);
+            const { PlanetaLostWorldState } = channelPlanetaLostWorld(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaLostWorld", data: PlanetaLostWorldState }));
             // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "missions") {
             // тут будет функция из роутеров для ws
-            const { MissionsState } = channelMissions(reqClient.data);
+            const { MissionsState } = channelMissions(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "missions", data: MissionsState }));
             // console.log(reqClient);
             return;
