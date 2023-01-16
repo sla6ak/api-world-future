@@ -1,5 +1,5 @@
 const channelPlanetaYellowHome = (req) => {
-    return;
+    return {};
 };
 
 module.exports = { channelPlanetaYellowHome };

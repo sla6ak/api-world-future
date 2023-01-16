@@ -1,5 +1,5 @@
-const channelPlanetaYellowHome = (req) => {
-    return;
+const channelMissions = (req) => {
+    return {};
 };
 
-module.exports = { channelPlanetaYellowHome };
+module.exports = { channelMissions };
