@@ -35,19 +35,19 @@ webSocketServer.on("connection", async (ws, req) => {
             if (!clientID) {
                 return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
             }
-            if (!!clientID) {
+            listClients = Object.keys(clients);
+            if (listClients.includes(clientID)) {
                 // нашли id подключенного проверим не висит ли он в списке подключений и удалим возможно он переподключился с нового браузера
                 delete clients[clientID];
             }
             // проверим не мульт ли он по ip/
-            listClients = Object.keys(clients);
-            const multClient = listClients.find((el) => {
-                // el.ip === client.ip || el.browser === client.browser;
-                el.ip === client.ip;
-            });
-            if (!!multClient) {
-                return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
-            }
+            // const multClient = listClients.find((el) => {
+            //     // el.ip === client.ip || el.browser === client.browser;
+            //     el.ip === client.ip;
+            // });
+            // if (!!multClient) {
+            //     return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
+            // }
             // найдем и отправим ему нужную инфу
             const { allState } = await channelConnect({ clientID });
             nikName = allState.lordInfo.nikName;
@@ -72,9 +72,11 @@ webSocketServer.on("connection", async (ws, req) => {
         }
         if (reqClient.channel === "planetaBlueHome") {
             // тут будет функция из роутеров для ws
-            const { PlanetaBlueHomeState } = channelPlanetaBlueHome(reqClient.data, nikName);
-            listClients.map((id) => {
-                clients[id].clientWS.send(JSON.stringify({ channel: "planetaBlueHome", data: PlanetaBlueHomeState }));
+            const { players } = channelPlanetaBlueHome(reqClient.data, nikName);
+            listClients = Object.keys(clients);
+            console.log(players);
+            listClients.map((elementID) => {
+                clients[elementID].clientWS.send(JSON.stringify({ channel: "planetaBlueHome", data: players }));
             });
             // console.log(reqClient);
             return;
