@@ -2,9 +2,9 @@ const baseLord = {
     nikName: "", //
     rassa: "", //
     online: true, //
-    positionX: 0,
-    positionY: 0,
-    positionZ: 0,
+    positionX: Math.floor(Math.random() * 10),
+    positionY: -2,
+    positionZ: Math.floor(Math.random() * 10),
     clan: "",
     battle: false,
     planet: "",
