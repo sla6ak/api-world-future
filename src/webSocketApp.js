@@ -72,11 +72,13 @@ webSocketServer.on("connection", async (ws, req) => {
         }
         if (reqClient.channel === "planetaBlueHome") {
             // тут будет функция из роутеров для ws
-            const { players } = channelPlanetaBlueHome(reqClient.data, nikName);
+            const planetaBlueHomeInfo = channelPlanetaBlueHome(reqClient.data, nikName);
             listClients = Object.keys(clients);
-            console.log(players);
+            console.log(planetaBlueHomeInfo);
             listClients.map((elementID) => {
-                clients[elementID].clientWS.send(JSON.stringify({ channel: "planetaBlueHome", data: players }));
+                clients[elementID].clientWS.send(
+                    JSON.stringify({ channel: "planetaBlueHome", data: planetaBlueHomeInfo })
+                );
             });
             // console.log(reqClient);
             return;

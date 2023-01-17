@@ -6,13 +6,11 @@ const channelPlanetaBlueHome = (req, nikName) => {
         return el.nikName === nikName;
     });
     if (!isPlayer) {
-        console.log("не копия", isPlayer);
         players.push({ nikName, position: req.position });
         global.stateGame.planetaBlueHomeInfo.players = players;
         return { players };
     }
     if (isPlayer) {
-        console.log("копия", isPlayer);
         players.map((el, ind) => {
             if (el.nikName === nikName) {
                 players.splice(ind, 1, { nikName, position: req.position });
