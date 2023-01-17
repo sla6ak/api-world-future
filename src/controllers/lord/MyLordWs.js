@@ -9,7 +9,7 @@ class MyLordWs {
             }
             return { lordInfo: lord };
         } catch (error) {
-            return { massage: "Server error", error: error };
+            return { massage: "Server error", error };
         }
     }
 
@@ -22,7 +22,7 @@ class MyLordWs {
             );
             return { newLord };
         } catch (error) {
-            return { massage: "Server error", error: error };
+            return { massage: "Server error", error };
         }
     }
     async choosePosition({ clientID, newPosition }) {
@@ -34,7 +34,7 @@ class MyLordWs {
             );
             return { newLord };
         } catch (error) {
-            return { massage: "Server error", error: error };
+            return { massage: "Server error", error };
         }
     }
 }

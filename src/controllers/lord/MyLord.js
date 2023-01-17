@@ -18,7 +18,7 @@ class MyLord {
             const newLord = { ...baseLord, nikName: nikName, rassa: rassa, user: req.id, planet: planet };
             const lord = new LordSchema(newLord);
             await lord.save();
-            res.status(201).json({ newLord });
+            res.status(201).json(newLord);
         } catch (error) {
             return res.status(404).json({ massage: "Can not created new Lord, try latter", error: error });
         }
