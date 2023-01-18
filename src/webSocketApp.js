@@ -13,10 +13,15 @@ globalState();
 const channels = ["chat", "connect", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
 // нужно проверять авторизацию при подключении connection и только
 const clients = {};
-// const clients = {"id":{clientWS: "server",id:"",ip:"", browser:""},"id":{},"id":{}.....};
+// const clients = {
+//  "762863587sdgsg2":{ clientWS: { server },id:"",ip:"", browser:"" },
+//  "0992u049u2o5325":{},
+//  "ihiuwh4r744iuhj":{},
+//   .....};
 
 webSocketServer.on("connection", async (ws, req) => {
     let clientID = "";
+
     let nikName = "";
     let listClients = Object.keys(clients);
     ws.on("pong", heartbeat);
@@ -27,6 +32,7 @@ webSocketServer.on("connection", async (ws, req) => {
 
     ws.on("message", async (message) => {
         const reqClient = JSON.parse(message);
+
         if (reqClient.channel === "connect") {
             // фронт прислал нам token игрока найдем его в базе.
             const client = await authWS(reqClient.data, req);
@@ -60,7 +66,12 @@ webSocketServer.on("connection", async (ws, req) => {
         if (reqClient.channel === "chat") {
             // тут будет функция из роутеров для ws
             const { chatState } = channelChat(reqClient.data);
-            ws.send(JSON.stringify({ channel: "chat", data: chatState }));
+            // всем юзерам ретранслируем сообщение
+            listClients = Object.keys(Clients);
+            listClients.forEach(
+                id => clients[id].clientWS.send(JSON.stringify({ channel: "chat", data: chatState }))
+            );
+            // ws.send(JSON.stringify({ channel: "chat", data: chatState }));
             return;
         }
         if (reqClient.channel === "myLord") {
