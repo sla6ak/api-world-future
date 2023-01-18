@@ -1,6 +1,8 @@
 const channelChat = ( chatData ) => {
-    const { message, username } = chatData;
-    console.log("user:", username, " - message:", message)
+    const { author, message, planet, race } = chatData;
+
+    console.log("user:", author, " - message:", message);
+    
     return {};
 };
 

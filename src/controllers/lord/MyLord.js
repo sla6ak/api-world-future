@@ -4,23 +4,24 @@ const baseLord = require("./baseLord");
 class MyLord {
     async createLord(req, res) {
         try {
-            const { nikName, rassa } = req.body;
-            const duplicateNikName = await LordSchema.findOne({ nikName: nikName });
+            const { nikName, race } = req.body;
+            const duplicateNikName = await LordSchema.findOne({ nikName });
             if (duplicateNikName) {
-                return res.status(404).json({ massage: "Choose another nik. This nikName is busy" });
+                return res.status(409).json({ massage: "Choose another nick. This nickName is busy" });
             }
             let planet = "Blue";
-            if (rassa === "Blue") {
+
+            if (race === "Blue") {
                 planet = "BlueHome";
-            } else if (rassa === "Yellow") {
+            } else if (race === "Yellow") {
                 planet = "YellowHome";
             }
-            const newLord = { ...baseLord, nikName: nikName, rassa: rassa, user: req.id, planet: planet };
+            const newLord = { ...baseLord, nikName, rassa: race, user: req.id, planet };
             const lord = new LordSchema(newLord);
             await lord.save();
             res.status(201).json({ newLord });
         } catch (error) {
-            return res.status(404).json({ massage: "Can not created new Lord, try latter", error: error });
+            return res.status(404).json({ massage: "Can not create new Lord, try latter", error });
         }
     }
 

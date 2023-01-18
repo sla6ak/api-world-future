@@ -66,6 +66,7 @@ webSocketServer.on("connection", async (ws, req) => {
         if (reqClient.channel === "chat") {
             // тут будет функция из роутеров для ws
             const { chatState } = channelChat(reqClient.data);
+
             // всем юзерам ретранслируем сообщение
             listClients = Object.keys(Clients);
             listClients.forEach(
