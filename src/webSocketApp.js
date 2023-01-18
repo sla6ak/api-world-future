@@ -10,7 +10,16 @@ const { channelMyLord } = require("./wsChannels/channelMyLord");
 const { globalState } = require("./globalState/globalState");
 
 globalState();
-const channels = ["chat", "connect", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
+const channels = [
+    "chat",
+    "connect",
+    "planetaBlueHome",
+    "planetaYellowHome",
+    "planetaLostWorld",
+    "missions",
+    "myLord",
+    "errorServer",
+];
 // нужно проверять авторизацию при подключении connection и только
 const clients = {};
 // const clients = {"id":{clientWS: "server",id:"",ip:"", browser:""},"id":{},"id":{}.....};
@@ -18,6 +27,7 @@ const clients = {};
 webSocketServer.on("connection", async (ws, req) => {
     let clientID = "";
     let nikName = "";
+    let client;
     let listClients = Object.keys(clients);
     ws.on("pong", heartbeat);
     ws.send(JSON.stringify({ channel: "connect", data: { message: "ws connect" } }));
@@ -29,11 +39,16 @@ webSocketServer.on("connection", async (ws, req) => {
         const reqClient = JSON.parse(message);
         if (reqClient.channel === "connect") {
             // фронт прислал нам token игрока найдем его в базе.
-            const client = await authWS(reqClient.data, req);
+            try {
+                client = await authWS(reqClient.data, req);
+            } catch (error) {
+                ws.send(JSON.stringify({ channel: "errorServer", data: { isErrorUser: true } }));
+                return;
+            }
             clientID = client.id;
             // если токен несуществует попросим юзера обновить страницу на клиенте
             if (!clientID) {
-                return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
+                return ws.send(JSON.stringify({ channel: "errorServer", data: { isErrorUser: true } }));
             }
             listClients = Object.keys(clients);
             if (listClients.includes(clientID)) {
