@@ -4,18 +4,18 @@ const baseLord = require("./baseLord");
 class MyLord {
     async createLord(req, res) {
         try {
-            const { nikName, rassa } = req.body;
+            const { nikName, race } = req.body;
             const duplicateNikName = await LordSchema.findOne({ nikName: nikName });
             if (duplicateNikName) {
                 return res.status(404).json({ massage: "Choose another nik. This nikName is busy" });
             }
-            let planet = "Blue";
-            if (rassa === "Blue") {
+            let planet = "BlueHome";
+            if (race === "Blue") {
                 planet = "BlueHome";
-            } else if (rassa === "Yellow") {
+            } else if (race === "Yellow") {
                 planet = "YellowHome";
             }
-            const newLord = { ...baseLord, nikName: nikName, rassa: rassa, user: req.id, planet: planet };
+            const newLord = { ...baseLord, nikName: nikName, race: race, user: req.id, planet: planet };
             const lord = new LordSchema(newLord);
             await lord.save();
             res.status(201).json(newLord);

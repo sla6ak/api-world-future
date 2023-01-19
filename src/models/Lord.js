@@ -2,7 +2,7 @@ const { Schema, model, Types } = require("mongoose"); //типы это част
 
 const LordSchema = new Schema({
     nikName: { type: String, unique: true }, //
-    rassa: { type: String }, //
+    race: { type: String }, //
     positionX: { type: Number },
     positionY: { type: Number },
     positionZ: { type: Number },
@@ -16,6 +16,7 @@ const LordSchema = new Schema({
     numbersLooseBattle: { type: Number }, // проигранных боев
     kristalsBlue: { type: Number },
     kristalsYellow: { type: Number },
+    darkMatter: { type: Number },
     lvl: { type: Number },
     ratingPoints: { type: Number },
     guild: { type: String }, //  разные гильдие будут выдавать разные задания игрокам с наградами. типа шахтерам удержать шахту 1 час и т д.

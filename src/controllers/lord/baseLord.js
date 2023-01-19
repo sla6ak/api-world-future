@@ -1,18 +1,19 @@
 const baseLord = {
     nikName: "", //
-    rassa: "", //
+    race: "", // Blue Yellow
     online: true, //
     positionX: Math.floor(Math.random() * 10),
     positionY: -2,
     positionZ: Math.floor(Math.random() * 10),
     clan: "",
     battle: false,
-    planet: "",
+    planet: "", // BlueHome YellowHome LostWorld
     numbersBattle: 0, // всего проведенных боев
     numbersWinBattle: 0, // число выиграных боев
     numbersLooseBattle: 0, // проигранных боев
     kristalsBlue: 5,
     kristalsYellow: 5,
+    darkMatter: 5,
     curentMissions: [],
     lvl: 1,
     ratingPoints: 0,
