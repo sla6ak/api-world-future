@@ -13,14 +13,17 @@ class MyLordWs {
         }
     }
 
-    async choosePlanet({ clientID, newPlanet }) {
+    async choosePlanet({ clientID, planet }) {
         try {
-            // тут нужно переписать newPlanet перед использованием
+            const { lordInfo } = this.getLord();
+            function rand() {
+                return Math.floor(Math.random() * 10);
+            }
             const newLord = await LordSchema.findOneAndUpdate(
                 { user: clientID },
-                { ...newPlanet, dateOnline: Date.now }
+                { planet, positionX: rand(), positionZ: rand(), dateOnline: Date.now }
             );
-            return { newLord };
+            return { oldPlanet: lordInfo.planet, lordInfo: newLord };
         } catch (error) {
             return { massage: "Server error", error };
         }

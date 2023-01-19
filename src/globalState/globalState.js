@@ -3,13 +3,10 @@
 
 const globalState = () => {
     global.stateGame = {
-        planetaBlueHomeInfo: { players: [] },
-        PlanetaLostWorld: { players: [] },
-        PlanetaYellowHome: { players: [] },
+        BlueHome: { players: [] },
+        LostWorld: { players: [] },
+        YellowHome: { players: [] },
     };
-    // global.stateGame.planetaBlueHomeInfo.players = [];
-    // global.stateGame.PlanetaLostWorld.players = [];
-    // global.stateGame.PlanetaYellowHome.players = [];
 };
 
 module.exports = { globalState };

@@ -14,8 +14,8 @@ const LordSchema = new Schema({
     numbersBattle: { type: Number }, // всего проведенных боев
     numbersWinBattle: { type: Number }, // число выиграных боев
     numbersLooseBattle: { type: Number }, // проигранных боев
-    kristalsBlue: { type: Number },
-    kristalsYellow: { type: Number },
+    сristalsBlue: { type: Number },
+    сristalsYellow: { type: Number },
     darkMatter: { type: Number },
     lvl: { type: Number },
     ratingPoints: { type: Number },

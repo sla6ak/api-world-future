@@ -1,13 +1,13 @@
 // players: [{ nikName: '', position: { x: 0, y: -1.0000112952390678, z: 1.4214541468827565e-15 }]
 
 const channelPlanetaBlueHome = (req, nikName) => {
-    let players = global.stateGame.planetaBlueHomeInfo.players;
+    let players = global.stateGame.BlueHome.players;
     const isPlayer = players.find((el) => {
         return el.nikName === nikName;
     });
     if (!isPlayer) {
         players.push({ nikName, position: req.position });
-        global.stateGame.planetaBlueHomeInfo.players = players;
+        global.stateGame.BlueHome.players = players;
         return { players };
     }
     if (isPlayer) {
@@ -17,8 +17,7 @@ const channelPlanetaBlueHome = (req, nikName) => {
             }
         });
 
-        // global.stateGame.planetaBlueHomeInfo.players = players;
-        return { players };
+        return { players, сristals: {} };
     }
 };
 

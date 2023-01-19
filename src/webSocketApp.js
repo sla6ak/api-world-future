@@ -79,14 +79,11 @@ webSocketServer.on("connection", async (ws, req) => {
             return;
         }
         if (reqClient.channel === "myLord") {
-            // тут будет функция из роутеров для ws
-            const { myLordState } = channelMyLord(reqClient.data);
+            const { myLordState } = channelMyLord({ req: reqClient.data, clientID, nikName });
             ws.send(JSON.stringify({ channel: "myLord", data: myLordState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaBlueHome") {
-            // тут будет функция из роутеров для ws
             const planetaBlueHomeInfo = channelPlanetaBlueHome(reqClient.data, nikName);
             listClients = Object.keys(clients);
             console.log(planetaBlueHomeInfo);
@@ -95,21 +92,16 @@ webSocketServer.on("connection", async (ws, req) => {
                     JSON.stringify({ channel: "planetaBlueHome", data: planetaBlueHomeInfo })
                 );
             });
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaYellowHome") {
-            // тут будет функция из роутеров для ws
             const { PlanetaYellowHomeState } = channelPlanetaYellowHome(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaYellowHome", data: PlanetaYellowHomeState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaLostWorld") {
-            // тут будет функция из роутеров для ws
             const { PlanetaLostWorldState } = channelPlanetaLostWorld(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaLostWorld", data: PlanetaLostWorldState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "missions") {
