@@ -10,7 +10,16 @@ const { channelMyLord } = require("./wsChannels/channelMyLord");
 const { globalState } = require("./globalState/globalState");
 
 globalState();
-const channels = ["chat", "connect", "planetaBlueHome", "planetaYellowHome", "planetaLostWorld", "missions", "myLord"];
+const channels = [
+    "chat",
+    "connect",
+    "planetaBlueHome",
+    "planetaYellowHome",
+    "planetaLostWorld",
+    "missions",
+    "myLord",
+    "errorServer",
+];
 // нужно проверять авторизацию при подключении connection и только
 const clients = {};
 // const clients = {
@@ -23,6 +32,7 @@ webSocketServer.on("connection", async (ws, req) => {
     let clientID = "";
 
     let nikName = "";
+    let client;
     let listClients = Object.keys(clients);
     ws.on("pong", heartbeat);
     ws.send(JSON.stringify({ channel: "connect", data: { message: "ws connect" } }));
@@ -35,25 +45,29 @@ webSocketServer.on("connection", async (ws, req) => {
 
         if (reqClient.channel === "connect") {
             // фронт прислал нам token игрока найдем его в базе.
-            const client = await authWS(reqClient.data, req);
+            try {
+                client = await authWS(reqClient.data, req);
+            } catch (error) {
+                ws.send(JSON.stringify({ channel: "errorServer", data: { isErrorUser: true } }));
+                return;
+            }
             clientID = client.id;
             // если токен несуществует попросим юзера обновить страницу на клиенте
             if (!clientID) {
-                return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
+                return ws.send(JSON.stringify({ channel: "errorServer", data: { isErrorUser: true } }));
             }
-            if (!!clientID) {
+            listClients = Object.keys(clients);
+            if (listClients.includes(clientID)) {
                 // нашли id подключенного проверим не висит ли он в списке подключений и удалим возможно он переподключился с нового браузера
                 delete clients[clientID];
             }
             // проверим не мульт ли он по ip/
-            listClients = Object.keys(clients);
-            const multClient = listClients.find((el) => {
-                // el.ip === client.ip || el.browser === client.browser;
-                el.ip === client.ip;
-            });
-            if (!!multClient) {
-                return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
-            }
+            // const multClient = listClients.find((el) => {
+            //     el.ip === client.ip;
+            // });
+            // if (!!multClient) {
+            //     return ws.send(JSON.stringify({ channel: "connect", data: { isErrorUser: true } }));
+            // }
             // найдем и отправим ему нужную инфу
             const { allState } = await channelConnect({ clientID });
             nikName = allState.lordInfo.nikName;
@@ -61,7 +75,7 @@ webSocketServer.on("connection", async (ws, req) => {
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
             clients[client.id] = client;
-            return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
+            // return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
         }
         if (reqClient.channel === "chat") {
             // тут будет функция из роутеров для ws
@@ -76,33 +90,29 @@ webSocketServer.on("connection", async (ws, req) => {
             return;
         }
         if (reqClient.channel === "myLord") {
-            // тут будет функция из роутеров для ws
-            const { myLordState } = channelMyLord(reqClient.data);
-            ws.send(JSON.stringify({ channel: "myLord", data: myLordState }));
-            // console.log(reqClient);
+            const lordInfo = await channelMyLord({ req: reqClient.data, clientID, nikName });
+            if (lordInfo) ws.send(JSON.stringify({ channel: "myLord", data: lordInfo }));
             return;
         }
         if (reqClient.channel === "planetaBlueHome") {
-            // тут будет функция из роутеров для ws
-            const { PlanetaBlueHomeState } = channelPlanetaBlueHome(reqClient.data, nikName);
-            listClients.map((id) => {
-                clients[id].clientWS.send(JSON.stringify({ channel: "planetaBlueHome", data: PlanetaBlueHomeState }));
+            const planetaBlueHomeInfo = channelPlanetaBlueHome(reqClient.data, nikName);
+            listClients = Object.keys(clients);
+            console.log("BlueHomeInfo", planetaBlueHomeInfo);
+            listClients.map((elementID) => {
+                clients[elementID].clientWS.send(
+                    JSON.stringify({ channel: "planetaBlueHome", data: planetaBlueHomeInfo })
+                );
             });
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaYellowHome") {
-            // тут будет функция из роутеров для ws
             const { PlanetaYellowHomeState } = channelPlanetaYellowHome(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaYellowHome", data: PlanetaYellowHomeState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaLostWorld") {
-            // тут будет функция из роутеров для ws
             const { PlanetaLostWorldState } = channelPlanetaLostWorld(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaLostWorld", data: PlanetaLostWorldState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "missions") {

@@ -9,17 +9,19 @@ class MyLord {
             if (duplicateNikName) {
                 return res.status(409).json({ massage: "Choose another nick. This nickName is busy" });
             }
-            let planet = "Blue";
+
+            let planet = "BlueHome";
 
             if (race === "Blue") {
                 planet = "BlueHome";
             } else if (race === "Yellow") {
                 planet = "YellowHome";
             }
+
             const newLord = { ...baseLord, nikName, rassa: race, user: req.id, planet };
             const lord = new LordSchema(newLord);
             await lord.save();
-            res.status(201).json({ newLord });
+            res.status(201).json(newLord);
         } catch (error) {
             return res.status(404).json({ massage: "Can not create new Lord, try latter", error });
         }
@@ -31,6 +33,7 @@ class MyLord {
             if (!lord) {
                 return res.status(401).json({ massage: "Info about this Lord lost" });
             }
+            console.log(lord);
             res.status(200).json({ data: lord });
         } catch (error) {
             return res.code(404).json({ massage: "Server error", error: error });
