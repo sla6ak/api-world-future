@@ -57,7 +57,6 @@ webSocketServer.on("connection", async (ws, req) => {
             }
             // проверим не мульт ли он по ip/
             // const multClient = listClients.find((el) => {
-            //     // el.ip === client.ip || el.browser === client.browser;
             //     el.ip === client.ip;
             // });
             // if (!!multClient) {
@@ -70,7 +69,7 @@ webSocketServer.on("connection", async (ws, req) => {
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
             clients[client.id] = client;
-            return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
+            // return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
         }
         if (reqClient.channel === "chat") {
             // тут будет функция из роутеров для ws
@@ -79,14 +78,14 @@ webSocketServer.on("connection", async (ws, req) => {
             return;
         }
         if (reqClient.channel === "myLord") {
-            const { myLordState } = channelMyLord({ req: reqClient.data, clientID, nikName });
-            ws.send(JSON.stringify({ channel: "myLord", data: myLordState }));
+            const lordInfo = await channelMyLord({ req: reqClient.data, clientID, nikName });
+            if (lordInfo) ws.send(JSON.stringify({ channel: "myLord", data: lordInfo }));
             return;
         }
         if (reqClient.channel === "planetaBlueHome") {
             const planetaBlueHomeInfo = channelPlanetaBlueHome(reqClient.data, nikName);
             listClients = Object.keys(clients);
-            console.log(planetaBlueHomeInfo);
+            console.log("BlueHomeInfo", planetaBlueHomeInfo);
             listClients.map((elementID) => {
                 clients[elementID].clientWS.send(
                     JSON.stringify({ channel: "planetaBlueHome", data: planetaBlueHomeInfo })

@@ -37,11 +37,11 @@ class User {
             const { email, password } = req.body;
             const user = await UserSchema.findOne({ email });
             if (!user) {
-                return res.status(400).json({ massage: `User not found`, error: null });
+                return res.status(404).json({ massage: `User not found`, error: null });
             }
             const isPassword = await bcrypt.compare(password, user.password);
             if (!isPassword) {
-                return res.status(400).json({ massage: `User not found`, error: null });
+                return res.status(404).json({ massage: `User not found`, error: null });
             }
             const token = jwt.sign({ id: user.id }, PASSWORD_KEY, { expiresIn: "9h" });
             res.status(200).json({
@@ -53,14 +53,14 @@ class User {
                 },
             });
         } catch (error) {
-            return res.status(400).json({ massage: `Login user is server error`, error: error });
+            return res.status(404).json({ massage: `Login user is server error`, error: error });
         }
     }
     async curentUser(req, res) {
         try {
             const user = await UserSchema.findOne({ id: req.id }); // в миделвеере мы добавили в реквест поле ид при проверке токена
             if (!user) {
-                return res.status(400).json({ massage: `Curent user not found`, error: null });
+                return res.status(404).json({ massage: `Curent user not found`, error: null });
             }
             res.status(200).json({
                 name: user.name,
@@ -68,7 +68,7 @@ class User {
                 massage: `Welcome ${user.name}!`,
             });
         } catch (error) {
-            return res.status(400).json({ massage: `Cureent user is server error`, error: error });
+            return res.status(404).json({ massage: `Cureent user is server error`, error: error });
         }
     }
 }

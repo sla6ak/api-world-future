@@ -3,11 +3,12 @@ const LordSchema = require("../../models/Lord");
 class MyLordWs {
     async getLord({ clientID }) {
         try {
-            const lord = await LordSchema.findOne({ user: clientID }); // в миделвеере мы добавили в реквест поле ид при проверке токена
+            const lordInfo = await LordSchema.findOne({ user: clientID }); // в миделвеере мы добавили в реквест поле ид при проверке токена
             if (!lord) {
                 return { massage: "Info about this Lord lost" };
             }
-            return { lordInfo: lord };
+
+            return lordInfo;
         } catch (error) {
             return { massage: "Server error", error };
         }
@@ -15,15 +16,21 @@ class MyLordWs {
 
     async choosePlanet({ clientID, planet }) {
         try {
-            const { lordInfo } = this.getLord();
+            let lordInfo = await LordSchema.findOne({ user: clientID });
+            const oldPlanet = lordInfo.planet;
             function rand() {
                 return Math.floor(Math.random() * 10);
             }
-            const newLord = await LordSchema.findOneAndUpdate(
-                { user: clientID },
-                { planet, positionX: rand(), positionZ: rand(), dateOnline: Date.now }
-            );
-            return { oldPlanet: lordInfo.planet, lordInfo: newLord };
+            const x = rand();
+            const y = rand();
+            await LordSchema.updateOne({ user: clientID });
+            lordInfo.planet = planet;
+            lordInfo.positionX = x;
+            lordInfo.positionZ = y;
+            // lordInfo.dateOnline = Date.now;
+            await lordInfo.save();
+            lordInfo = await LordSchema.findOne({ user: clientID });
+            return { oldPlanet, lordInfo };
         } catch (error) {
             return { massage: "Server error", error };
         }
@@ -33,7 +40,8 @@ class MyLordWs {
             // тут нужно переписать newPlanet перед использованием
             const newLord = await LordSchema.findOneAndUpdate(
                 { user: clientID },
-                { ...newPosition, dateOnline: Date.now }
+                { newPosition, dateOnline: Date.now },
+                { returnOriginal: false }
             );
             return { newLord };
         } catch (error) {

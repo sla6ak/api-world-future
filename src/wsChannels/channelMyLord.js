@@ -3,32 +3,26 @@ const user = require("../controllers/lord/MyLordWs");
 const channelMyLord = async ({ req, clientID, nikName }) => {
     if (req.event === "choosePlanet") {
         const { lordInfo, oldPlanet } = await user.choosePlanet({ planet: req.planet, clientID });
-        if (oldPlanet === "BlueHome") {
-            deletedPositionOldPlanet({ oldPlanet: "planetaBlueHomeInfo", nikName });
-        } else if (oldPlanet === "YellowHome") {
-            deletedPositionOldPlanet({ oldPlanet: "planetaYellowHomeInfo", nikName });
-        } else if (oldPlanet === "LostWorld") {
-            deletedPositionOldPlanet({ oldPlanet: "planetaLostWorldInfo", nikName });
-        }
-        const allState = { lordInfo };
-        return { allState };
+        console.log("channelMyLord", lordInfo, oldPlanet);
+        deletedPositionOldPlanet({ oldPlanet, nikName });
+        return lordInfo;
     }
 };
 
 module.exports = { channelMyLord };
 
 function deletedPositionOldPlanet({ oldPlanet, nikName }) {
-    let players = global.stateGame[oldPlanet].players;
-    const isPlayer = players.find((el) => {
+    let stateGame = global.stateGame;
+    const isPlayer = stateGame[oldPlanet].players.find((el) => {
         return el.nikName === nikName;
     });
     if (!isPlayer) {
         return;
     }
     if (isPlayer) {
-        players.map((el, ind) => {
+        stateGame[oldPlanet].players.map((el, ind) => {
             if (el.nikName === nikName) {
-                players.splice(ind, 1);
+                stateGame[oldPlanet].players.splice(ind, 1);
             }
         });
     }
