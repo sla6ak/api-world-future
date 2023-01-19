@@ -57,7 +57,6 @@ webSocketServer.on("connection", async (ws, req) => {
             }
             // проверим не мульт ли он по ip/
             // const multClient = listClients.find((el) => {
-            //     // el.ip === client.ip || el.browser === client.browser;
             //     el.ip === client.ip;
             // });
             // if (!!multClient) {
@@ -70,7 +69,7 @@ webSocketServer.on("connection", async (ws, req) => {
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
             clients[client.id] = client;
-            return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
+            // return ws.send(JSON.stringify({ channel: "connect", data: { allState, isErrorUser: false } }));
         }
         if (reqClient.channel === "chat") {
             // тут будет функция из роутеров для ws
@@ -79,37 +78,29 @@ webSocketServer.on("connection", async (ws, req) => {
             return;
         }
         if (reqClient.channel === "myLord") {
-            // тут будет функция из роутеров для ws
-            const { myLordState } = channelMyLord(reqClient.data);
-            ws.send(JSON.stringify({ channel: "myLord", data: myLordState }));
-            // console.log(reqClient);
+            const lordInfo = await channelMyLord({ req: reqClient.data, clientID, nikName });
+            if (lordInfo) ws.send(JSON.stringify({ channel: "myLord", data: lordInfo }));
             return;
         }
         if (reqClient.channel === "planetaBlueHome") {
-            // тут будет функция из роутеров для ws
             const planetaBlueHomeInfo = channelPlanetaBlueHome(reqClient.data, nikName);
             listClients = Object.keys(clients);
-            console.log(planetaBlueHomeInfo);
+            console.log("BlueHomeInfo", planetaBlueHomeInfo);
             listClients.map((elementID) => {
                 clients[elementID].clientWS.send(
                     JSON.stringify({ channel: "planetaBlueHome", data: planetaBlueHomeInfo })
                 );
             });
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaYellowHome") {
-            // тут будет функция из роутеров для ws
             const { PlanetaYellowHomeState } = channelPlanetaYellowHome(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaYellowHome", data: PlanetaYellowHomeState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "planetaLostWorld") {
-            // тут будет функция из роутеров для ws
             const { PlanetaLostWorldState } = channelPlanetaLostWorld(reqClient.data, nikName);
             ws.send(JSON.stringify({ channel: "planetaLostWorld", data: PlanetaLostWorldState }));
-            // console.log(reqClient);
             return;
         }
         if (reqClient.channel === "missions") {

@@ -30,6 +30,7 @@ class MyLord {
             if (!lord) {
                 return res.status(401).json({ massage: "Info about this Lord lost" });
             }
+            console.log(lord);
             res.status(200).json({ data: lord });
         } catch (error) {
             return res.code(404).json({ massage: "Server error", error: error });
