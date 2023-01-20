@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const UserSchema = require("../../models/User");
+const Error = require("../../configs/errors/errorMassage");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -28,7 +29,7 @@ class User {
                 },
             });
         } catch (error) {
-            return res.status(400).json({ massage: `Create user server error`, error: error });
+            return Error(res, 500, error);
         }
     }
 
@@ -37,11 +38,11 @@ class User {
             const { email, password } = req.body;
             const user = await UserSchema.findOne({ email });
             if (!user) {
-                return res.status(404).json({ massage: `User not found`, error: null });
+                return Error(res, 404);
             }
             const isPassword = await bcrypt.compare(password, user.password);
             if (!isPassword) {
-                return res.status(404).json({ massage: `User not found`, error: null });
+                return Error(res, 404);
             }
             const token = jwt.sign({ id: user.id }, PASSWORD_KEY, { expiresIn: "9h" });
             res.status(200).json({
@@ -53,14 +54,14 @@ class User {
                 },
             });
         } catch (error) {
-            return res.status(404).json({ massage: `Login user is server error`, error: error });
+            return Error(res, 500, error);
         }
     }
     async curentUser(req, res) {
         try {
             const user = await UserSchema.findOne({ id: req.id }); // в миделвеере мы добавили в реквест поле ид при проверке токена
             if (!user) {
-                return res.status(404).json({ massage: `Curent user not found`, error: null });
+                return Error(res, 404);
             }
             res.status(200).json({
                 name: user.name,
@@ -68,7 +69,7 @@ class User {
                 massage: `Welcome ${user.name}!`,
             });
         } catch (error) {
-            return res.status(404).json({ massage: `Cureent user is server error`, error: error });
+            return Error(res, 500, error);
         }
     }
 }
