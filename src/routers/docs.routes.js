@@ -1,14 +1,13 @@
-const { Router } = require("express");
-const router = Router();
-const errMassage = require("../configs/errors/errorMassage");
+const { Router } = require('express')
+const router = Router()
+const errMassage = require('../configs/errors/errorMassage')
 
-router.get("/", (req, res) => {
-    try {
-        res.status(200).json({ licensia: "Tekst licensia" });
-    } catch (error) {
-        errMassage(res, 504, error);
-        return;
-    }
-});
+router.get('/', (req, res) => {
+  try {
+    res.status(200).json({ licensia: 'Tekst licensia' })
+  } catch (error) {
+    errMassage(res, 504, error)
+  }
+})
 
-module.exports = router;
+module.exports = router

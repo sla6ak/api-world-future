@@ -1,5 +1,5 @@
-const channelMissions = (req) => {
-    return {};
-};
+const channelMissions = req => {
+  return {}
+}
 
-module.exports = { channelMissions };
+module.exports = { channelMissions }
