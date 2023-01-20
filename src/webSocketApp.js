@@ -8,6 +8,7 @@ const { channelPlanetaYellowHome } = require("./wsChannels/channelPlanetaYellowH
 const { channelPlanetaLostWorld } = require("./wsChannels/channelPlanetaLostWorld");
 const { channelMyLord } = require("./wsChannels/channelMyLord");
 const { globalState } = require("./globalState/globalState");
+const deletedPositionOldPlanet = require("./globalState/deletedPositionOldPlanet");
 
 globalState();
 const channels = [
@@ -27,6 +28,7 @@ const clients = {};
 webSocketServer.on("connection", async (ws, req) => {
     let clientID = "";
     let nikName = "";
+    let myPlanet = "";
     let client;
     let listClients = Object.keys(clients);
     ws.on("pong", heartbeat);
@@ -65,6 +67,7 @@ webSocketServer.on("connection", async (ws, req) => {
             // найдем и отправим ему нужную инфу
             const { allState } = await channelConnect({ clientID });
             nikName = allState.lordInfo.nikName;
+            myPlanet = allState.lordInfo.planet;
 
             // теперь перезапишем нового клиента в список
             client.clientWS = ws;
@@ -80,6 +83,7 @@ webSocketServer.on("connection", async (ws, req) => {
         if (reqClient.channel === "myLord") {
             const lordInfo = await channelMyLord({ req: reqClient.data, clientID, nikName });
             if (lordInfo) ws.send(JSON.stringify({ channel: "myLord", data: lordInfo }));
+            myPlanet = lordInfo.planet;
             return;
         }
         if (reqClient.channel === "planetaBlueHome") {
@@ -115,6 +119,7 @@ webSocketServer.on("connection", async (ws, req) => {
     // ws.on("error", (e) => ws.send(e));
     ws.on("close", () => {
         // при отключении удалим из массива клиента
+        deletedPositionOldPlanet(myPlanet, nikName);
         delete clients[clientID];
         clearInterval(intervalPingPong);
     });
