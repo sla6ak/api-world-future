@@ -1,5 +1,6 @@
 const LordSchema = require("../../models/Lord");
 const baseLord = require("./baseLord");
+const Error = require("../../configs/errors/errorMassage");
 
 class MyLord {
     async createLord(req, res) {
@@ -20,7 +21,7 @@ class MyLord {
             await lord.save();
             res.status(201).json(newLord);
         } catch (error) {
-            return res.status(404).json({ massage: "Can not created new Lord, try latter", error: error });
+            return Error(res, 500, error);
         }
     }
 
@@ -28,12 +29,11 @@ class MyLord {
         try {
             const lord = await LordSchema.findOne({ user: req.id }); // в миделвеере мы добавили в реквест поле ид при проверке токена
             if (!lord) {
-                return res.status(401).json({ massage: "Info about this Lord lost" });
+                return Error(res, 404);
             }
-            console.log(lord);
             res.status(200).json({ data: lord });
         } catch (error) {
-            return res.code(404).json({ massage: "Server error", error: error });
+            return Error(res, 500, error);
         }
     }
 
@@ -42,7 +42,7 @@ class MyLord {
             const newLord = await LordSchema.findOneAndUpdate({ user: req.id }, { ...req.body, dateOnline: Date.now });
             res.status(201).json({ newLord });
         } catch (error) {
-            return res.status(404).json({ massage: "Server error", error: error });
+            return Error(res, 500, error);
         }
     }
 }

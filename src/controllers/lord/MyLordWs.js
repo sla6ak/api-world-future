@@ -1,13 +1,12 @@
 const LordSchema = require("../../models/Lord");
 
 class MyLordWs {
-    async getLord({ clientID }) {
+    async getLordWs({ clientID }) {
         try {
             const lordInfo = await LordSchema.findOne({ user: clientID }); // в миделвеере мы добавили в реквест поле ид при проверке токена
-            if (!lord) {
+            if (!lordInfo) {
                 return { massage: "Info about this Lord lost" };
             }
-
             return lordInfo;
         } catch (error) {
             return { massage: "Server error", error };
@@ -23,6 +22,7 @@ class MyLordWs {
             }
             const x = rand();
             const y = rand();
+
             await LordSchema.updateOne({ user: clientID });
             lordInfo.planet = planet;
             lordInfo.positionX = x;
@@ -30,6 +30,7 @@ class MyLordWs {
             // lordInfo.dateOnline = Date.now;
             await lordInfo.save();
             lordInfo = await LordSchema.findOne({ user: clientID });
+
             return { oldPlanet, lordInfo };
         } catch (error) {
             return { massage: "Server error", error };

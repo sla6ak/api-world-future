@@ -1,4 +1,4 @@
-const Error = (res, status, error) => {
+const Error = (res, status, error = "") => {
     if (!error) {
         error = "Not information";
     }
