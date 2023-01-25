@@ -3,33 +3,15 @@ const { authWS } = require('./middleware/authWS/authWS.middleware')
 const { channelConnect } = require('./wsChannels/channelConnect')
 const { channelChat } = require('./wsChannels/channelChat')
 const { channelMissions } = require('./wsChannels/channelMissions')
-const {
-  channelPlanetaBlueHome
-} = require('./wsChannels/channelPlanetaBlueHome')
-const {
-  channelPlanetaYellowHome
-} = require('./wsChannels/channelPlanetaYellowHome')
-const {
-  channelPlanetaLostWorld
-} = require('./wsChannels/channelPlanetaLostWorld')
+const { channelBlueHome } = require('./wsChannels/channelPlanetaBlueHome')
+const { channelYellowHome } = require('./wsChannels/channelPlanetaYellowHome')
+const { channelLostWorld } = require('./wsChannels/channelPlanetaLostWorld')
 const { channelMyLord } = require('./wsChannels/channelMyLord')
 const { globalState } = require('./globalState/globalState')
 const {
   deletedPositionOldPlanet
 } = require('./globalState/deletedPositionOldPlanet')
-
 globalState()
-
-// const channels = [
-//   'chat',
-//   'connect',
-//   'planetaBlueHome',
-//   'planetaYellowHome',
-//   'planetaLostWorld',
-//   'missions',
-//   'myLord',
-//   'errorServer'
-// ]
 
 // нужно проверять авторизацию при подключении connection и только
 const clients = {}
@@ -114,53 +96,41 @@ webSocketServer.on('connection', async (ws, req) => {
       }
       return
     }
-    if (reqClient.channel === 'planetaBlueHome') {
-      const planetaBlueHomeInfo = channelPlanetaBlueHome(
-        reqClient.data,
-        nikName
-      )
+    if (reqClient.channel === 'BlueHome') {
+      const BlueHomeInfo = channelBlueHome(reqClient.data, nikName)
       listClients = Object.keys(clients)
-      // console.log("BlueHomeInfo", planetaBlueHomeInfo);
       listClients.map((elementID) =>
         clients[elementID].clientWS.send(
           JSON.stringify({
-            channel: 'planetaBlueHome',
-            data: planetaBlueHomeInfo
+            channel: 'BlueHome',
+            data: BlueHomeInfo
           })
         )
       )
       return
     }
-    if (reqClient.channel === 'planetaYellowHome') {
-      const { PlanetaYellowHomeInfo } = channelPlanetaYellowHome(
-        reqClient.data,
-        nikName
-      )
+    if (reqClient.channel === 'YellowHome') {
+      const { YellowHomeInfo } = channelYellowHome(reqClient.data, nikName)
       listClients = Object.keys(clients)
-      // console.log("BlueHomeInfo", planetaBlueHomeInfo);
       listClients.map((elementID) =>
         clients[elementID].clientWS.send(
           JSON.stringify({
-            channel: 'planetaYellowHome',
-            data: PlanetaYellowHomeInfo
+            channel: 'YellowHome',
+            data: YellowHomeInfo
           })
         )
       )
 
       return
     }
-    if (reqClient.channel === 'planetaLostWorld') {
-      const { PlanetaLostWorldInfo } = channelPlanetaLostWorld(
-        reqClient.data,
-        nikName
-      )
+    if (reqClient.channel === 'LostWorld') {
+      const { LostWorldInfo } = channelLostWorld(reqClient.data, nikName)
       listClients = Object.keys(clients)
-      // console.log("BlueHomeInfo", planetaBlueHomeInfo);
       listClients.map((elementID) =>
         clients[elementID].clientWS.ws.send(
           JSON.stringify({
-            channel: 'planetaLostWorld',
-            data: PlanetaLostWorldInfo
+            channel: 'LostWorld',
+            data: LostWorldInfo
           })
         )
       )
@@ -179,7 +149,6 @@ webSocketServer.on('connection', async (ws, req) => {
 
   // ws.on("error", (e) => ws.send(e));
   ws.on('close', () => {
-    // при отключении удалим из массива клиента
     if (myPlanet) {
       deletedPositionOldPlanet(myPlanet, nikName)
     }

@@ -1,10 +1,10 @@
-const channelPlanetaLostWorld = (req, nikName) => {
-  const players = global.stateGame.LostWorld.players
+const channelLostWorld = (req, nikName) => {
+  const players = [...global.stateGame.BlueHome.players]
   const isPlayer = players.find((el) => {
     return el.nikName === nikName
   })
   if (!isPlayer) {
-    players.push({ nikName, position: req.position })
+    players.push({ nikName, position: req.position, rotation: req.rotation })
     global.stateGame.LostWorld.players = players
     return { players }
   }
@@ -13,10 +13,15 @@ const channelPlanetaLostWorld = (req, nikName) => {
     players.map(
       (el, ind) =>
         el.nikName === nikName &&
-        players.splice(ind, 1, { nikName, position: req.position })
+        players.splice(ind, 1, {
+          nikName,
+          position: req.position,
+          rotation: req.rotation
+        })
     )
+    global.stateGame.BlueHome.players = players
     return { players }
   }
 }
 
-module.exports = { channelPlanetaLostWorld }
+module.exports = { channelLostWorld }

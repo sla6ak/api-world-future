@@ -1,10 +1,10 @@
-const channelPlanetaYellowHome = (req, nikName) => {
-  const players = global.stateGame.YellowHome.players
+const channelYellowHome = (req, nikName) => {
+  const players = [...global.stateGame.BlueHome.players]
   const isPlayer = players.find((el) => {
     return el.nikName === nikName
   })
   if (!isPlayer) {
-    players.push({ nikName, position: req.position })
+    players.push({ nikName, position: req.position, rotation: req.rotation })
     global.stateGame.YellowHome.players = players
     return { players }
   }
@@ -13,11 +13,16 @@ const channelPlanetaYellowHome = (req, nikName) => {
     players.map(
       (el, ind) =>
         el.nikName === nikName &&
-        players.splice(ind, 1, { nikName, position: req.position })
+        players.splice(ind, 1, {
+          nikName,
+          position: req.position,
+          rotation: req.rotation
+        })
     )
 
+    global.stateGame.BlueHome.players = players
     return { players }
   }
 }
 
-module.exports = { channelPlanetaYellowHome }
+module.exports = { channelYellowHome }

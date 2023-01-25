@@ -3,9 +3,8 @@ const { Schema, model, Types } = require('mongoose') // типы это част
 const LordSchema = new Schema({
   nikName: { type: String, unique: true }, //
   race: { type: String }, //
-  positionX: { type: Number },
-  positionY: { type: Number },
-  positionZ: { type: Number },
+  position: { type: Object },
+  rotation: { type: Object },
   planet: { type: String },
   missions: [],
   curentMissions: [{ type: String }],
