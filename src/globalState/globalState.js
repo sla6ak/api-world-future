@@ -3,9 +3,9 @@
 
 const globalState = () => {
   global.stateGame = {
-    BlueHome: { players: [] },
-    LostWorld: { players: [] },
-    YellowHome: { players: [] }
+    BlueHome: { players: {}, anomals: {}, cristals: {} },
+    LostWorld: { players: {}, anomals: {}, cristals: {} },
+    YellowHome: { players: {}, anomals: {}, cristals: {} }
   }
 }
 

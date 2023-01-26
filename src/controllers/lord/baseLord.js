@@ -2,9 +2,8 @@ const baseLord = {
   nikName: '', //
   race: '', // Blue Yellow
   online: true, //
-  positionX: Math.floor(Math.random() * 10),
-  positionY: 0,
-  positionZ: Math.floor(Math.random() * 10),
+  position: { x: 0, y: -1.0, z: 0 },
+  rotation: { x: 0, y: 0, z: 0 },
   clan: '',
   battle: false,
   planet: 'YellowHome', // BlueHome YellowHome LostWorld

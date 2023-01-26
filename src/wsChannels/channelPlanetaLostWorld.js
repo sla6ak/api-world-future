@@ -1,22 +1,10 @@
-const channelPlanetaLostWorld = (req, nikName) => {
+const channelLostWorld = (req, nikName) => {
+  global.stateGame.LostWorld.players[nikName] = {
+    position: req.position,
+    rotation: req.rotation
+  }
   const players = global.stateGame.LostWorld.players
-  const isPlayer = players.find((el) => {
-    return el.nikName === nikName
-  })
-  if (!isPlayer) {
-    players.push({ nikName, position: req.position })
-    global.stateGame.LostWorld.players = players
-    return { players }
-  }
-
-  if (isPlayer) {
-    players.map(
-      (el, ind) =>
-        el.nikName === nikName &&
-        players.splice(ind, 1, { nikName, position: req.position })
-    )
-    return { players }
-  }
+  return { players, cristals: {} }
 }
 
-module.exports = { channelPlanetaLostWorld }
+module.exports = { channelLostWorld }
