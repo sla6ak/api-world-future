@@ -110,7 +110,7 @@ webSocketServer.on('connection', async (ws, req) => {
       return
     }
     if (reqClient.channel === 'YellowHome') {
-      const { YellowHomeInfo } = channelYellowHome(reqClient.data, nikName)
+      const YellowHomeInfo = channelYellowHome(reqClient.data, nikName)
       listClients = Object.keys(clients)
       listClients.map((elementID) =>
         clients[elementID].clientWS.send(
@@ -124,10 +124,10 @@ webSocketServer.on('connection', async (ws, req) => {
       return
     }
     if (reqClient.channel === 'LostWorld') {
-      const { LostWorldInfo } = channelLostWorld(reqClient.data, nikName)
+      const LostWorldInfo = channelLostWorld(reqClient.data, nikName)
       listClients = Object.keys(clients)
       listClients.map((elementID) =>
-        clients[elementID].clientWS.ws.send(
+        clients[elementID].clientWS.send(
           JSON.stringify({
             channel: 'LostWorld',
             data: LostWorldInfo
@@ -150,7 +150,7 @@ webSocketServer.on('connection', async (ws, req) => {
   // ws.on("error", (e) => ws.send(e));
   ws.on('close', () => {
     if (myPlanet) {
-      deletedPositionOldPlanet(myPlanet, nikName)
+      deletedPositionOldPlanet({ oldPlanet: myPlanet, nikName })
     }
     delete clients[client.id]
   })

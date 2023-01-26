@@ -1,4 +1,4 @@
-const distance = 'Расстояние по приборам:'
+const distance = 'Instrument Distance: '
 const en = {
   listLanguage: [
     { shortName: 'en', text: 'ENGLISH' },
@@ -42,8 +42,14 @@ const en = {
   objects: {
     cristals: { title: 'Коробка', shortInfo: '', moreInfo: '', distance },
     car: { title: 'Car', shortInfo: '', moreInfo: '', distance },
-    box: { title: 'Box', shortInfo: '', moreInfo: '', distance },
-    portal: { title: 'Portal', shortInfo: '', moreInfo: '', distance },
+    box: { title: 'Box', shortInfo: 'empty box', moreInfo: '', distance },
+    portal: {
+      title: 'Portal',
+      shortInfo:
+        'Gates allow you to travel around the universe to jump you need to be near the gate',
+      moreInfo: '',
+      distance
+    },
     star: { title: 'Star', shortInfo: '', moreInfo: '', distance },
     hero: { title: 'Hero', shortInfo: '', moreInfo: '', distance }
   }

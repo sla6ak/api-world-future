@@ -1,4 +1,4 @@
-const distance = 'Расстояние по приборам:'
+const distance = 'Відстань до приладів: '
 const ua = {
   listLanguage: [
     { shortName: 'en', text: 'АНГЛИЙСЬКА' },
@@ -41,10 +41,21 @@ const ua = {
   },
   objects: {
     cristals: { title: 'Коробка', shortInfo: '', moreInfo: '', distance },
-    car: { title: 'Car', shortInfo: '', moreInfo: '', distance },
-    box: { title: 'Box', shortInfo: '', moreInfo: '', distance },
-    portal: { title: 'Portal', shortInfo: '', moreInfo: '', distance },
-    star: { title: 'Star', shortInfo: '', moreInfo: '', distance },
+    car: { title: 'Авто', shortInfo: '', moreInfo: '', distance },
+    box: {
+      title: 'Коробка',
+      shortInfo: 'порожня коробка',
+      moreInfo: '',
+      distance
+    },
+    portal: {
+      title: 'Брама',
+      shortInfo:
+        'Брама дозволяють подорожувати всесвітом для стрибка вам необхідно знаходитися біля воріт',
+      moreInfo: '',
+      distance
+    },
+    star: { title: 'зірка', shortInfo: '', moreInfo: '', distance },
     hero: { title: 'Hero', shortInfo: '', moreInfo: '', distance }
   }
 }

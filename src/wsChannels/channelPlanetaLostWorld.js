@@ -1,27 +1,10 @@
 const channelLostWorld = (req, nikName) => {
-  const players = [...global.stateGame.BlueHome.players]
-  const isPlayer = players.find((el) => {
-    return el.nikName === nikName
-  })
-  if (!isPlayer) {
-    players.push({ nikName, position: req.position, rotation: req.rotation })
-    global.stateGame.LostWorld.players = players
-    return { players }
+  global.stateGame.LostWorld.players[nikName] = {
+    position: req.position,
+    rotation: req.rotation
   }
-
-  if (isPlayer) {
-    players.map(
-      (el, ind) =>
-        el.nikName === nikName &&
-        players.splice(ind, 1, {
-          nikName,
-          position: req.position,
-          rotation: req.rotation
-        })
-    )
-    global.stateGame.BlueHome.players = players
-    return { players }
-  }
+  const players = global.stateGame.LostWorld.players
+  return { players, cristals: {} }
 }
 
 module.exports = { channelLostWorld }
